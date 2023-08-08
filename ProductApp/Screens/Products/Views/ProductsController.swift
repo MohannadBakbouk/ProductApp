@@ -12,6 +12,11 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         view.backgroundColor = .darkGray
-        // Do any additional setup after loading the view.
+        ProductService().getProducts()
+        .subscribe(onNext: { event in
+            print(event.count)
+        }, onError : { error in
+            print((error as? NetworkError)?.message)
+        }).disposed(by: disposeBag)
     }
 }
