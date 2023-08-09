@@ -32,8 +32,8 @@ extension ProductsController{
     
     func bindingFiltersButton(){
         headerView.filtersButtonTapped
-        .subscribe(onNext: { _ in
-             print("filters tapped")
+        .subscribe(onNext: {[weak self] _ in
+            (self?.coordinator as? MainCoordinator)?.showFilters()
         }).disposed(by: disposeBag)
     }
 }

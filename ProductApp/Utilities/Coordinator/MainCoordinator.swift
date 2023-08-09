@@ -32,6 +32,12 @@ final class MainCoordinator: Coordinator{
         
     }
     
+    func showFilters(){
+        let filtersScreen = FiltersController(viewModel: FiltersViewModel(), coordinator: self)
+        filtersScreen.modalPresentationStyle = .overFullScreen
+        navigationController.present(filtersScreen, animated: true)
+    }
+    
     func back() {
         navigationController.popViewController(animated: true)
     }
