@@ -29,4 +29,11 @@ extension ProductsController{
         .bind(to: refreshControl.rx.isRefreshing)
         .disposed(by: disposeBag)
     }
+    
+    func bindingFiltersButton(){
+        headerView.filtersButtonTapped
+        .subscribe(onNext: { _ in
+             print("filters tapped")
+        }).disposed(by: disposeBag)
+    }
 }

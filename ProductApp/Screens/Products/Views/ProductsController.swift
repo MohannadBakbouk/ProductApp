@@ -45,6 +45,18 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         return UIRefreshControl()
     }()
     
+    lazy var headerView: UIHeaderView = {
+        return UIHeaderView()
+    }()
+    
+    private let titleLabel: UILabel = {
+         let lab = UILabel()
+         lab.text = "Discovery new places"
+         lab.textColor = .titleColor
+         lab.font = UIFont.systemFont(ofSize: 30, weight: .regular)
+         return lab
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
@@ -54,14 +66,24 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     
     private func setupViews(){
         view.backgroundColor = .white
-        view.addSubview(collectionView)
+        view.addSubviews(contentOf: [headerView, titleLabel, collectionView])
         collectionView.register(ProductsCell.self)
         setupConstraints()
         setupCollectionCellSize()
     }
     
     private func setupConstraints(){
-        collectionView.easy.layout(Top(15).to(view.safeAreaLayoutGuide, .top),
+        headerView.easy.layout(Top(15).to(view.safeAreaLayoutGuide, .top),
+                              Leading(15).to(view),
+                              Trailing(15).to(view),
+                              Height(50))
+        
+        titleLabel.easy.layout(Top(15).to(headerView, .bottom),
+                              Leading(15).to(view),
+                              Trailing(15).to(view),
+                              Height(50))
+        
+        collectionView.easy.layout(Top(-10).to(titleLabel, .bottom),
                                    Leading(15).to(view),
                                    Trailing(15).to(view),
                                    Height(*0.55).like(view))
@@ -77,5 +99,6 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         bindingCollectionViewDataSource()
         bindingRefreshControl()
         bindingIsLoading()
+        bindingFiltersButton()
     }
 }

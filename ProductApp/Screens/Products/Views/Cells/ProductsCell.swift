@@ -24,7 +24,7 @@ final class ProductsCell: UICollectionViewCell {
         let lab = UILabel()
         lab.text = ""
         lab.font = UIFont.boldSystemFont(ofSize: 16)
-        lab.numberOfLines = 0
+        lab.numberOfLines = 3
         lab.textColor = .titleColor
         return lab
      }()
