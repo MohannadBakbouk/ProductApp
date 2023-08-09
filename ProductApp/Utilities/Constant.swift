@@ -27,3 +27,10 @@ enum ErrorMessages{
     static let  hostNameNotFound =  "the host you have requested is not existed"
 }
 
+enum Images {
+    static let star = "star"
+    static let filledStar = "star.fill"
+    static let halfFilledStar = "star.leadinghalf.fill"
+}
+
+

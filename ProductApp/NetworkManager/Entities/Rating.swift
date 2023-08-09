@@ -21,4 +21,9 @@ struct Rating: Codable {
       rate  = try values.decodeIfPresent(Double.self, forKey: .rate)
       count = try values.decodeIfPresent(Int.self, forKey: .count)
     }
+    
+    init() {
+        self.rate   = 0.0
+        self.count  = 0
+    }
 }

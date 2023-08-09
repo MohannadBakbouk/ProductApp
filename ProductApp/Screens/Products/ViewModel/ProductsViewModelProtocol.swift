@@ -9,6 +9,6 @@ import Foundation
 import RxSwift
 
 protocol ProductsViewModelProtocol: BaseViewModelProtocol{
-    var products: BehaviorSubject<[String]> {get}
+    var products: BehaviorSubject<[ProductViewData]> {get}
     func loadProducts()
 }
