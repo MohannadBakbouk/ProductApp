@@ -8,6 +8,7 @@ def appPods
    pod 'Kingfisher'
    pod 'RealmSwift'
    pod 'EasyPeasy'
+   pod 'RxDataSources'
 end
 
 target 'ProductApp' do

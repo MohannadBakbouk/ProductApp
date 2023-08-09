@@ -6,16 +6,20 @@
 //
 
 import UIKit
+import RxSwift
 import RxCocoa
+import RxDataSources
 import EasyPeasy
 
 final class ProductsController: BaseViewController<ProductsViewModel> {
     
-    private lazy var collectionView : UICollectionView = {
+    lazy var collectionView : UICollectionView = {
         let collection = UICollectionView(frame: .zero , collectionViewLayout: collectionViewLayout)
         collection.allowsMultipleSelection = false
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
+        collection.refreshControl = refreshControl
+        collection.contentInset.top = 25
         return collection
     }()
     
@@ -28,11 +32,24 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         return layout
     }()
     
+    lazy var collectionDataSource: RxCollectionViewSectionedReloadDataSource<SectionModel> = {
+        let dataSouce = RxCollectionViewSectionedReloadDataSource<SectionModel<String, ProductViewData>>(configureCell:{ (_, collection, index, model) in
+            let cell = collection.dequeueReusableCell(withReuseIdentifier: String(describing: ProductsCell.self), for: index) as? ProductsCell
+            cell?.configure(with: model)
+            return cell ?? UICollectionViewCell()
+        })
+        return dataSouce
+    }()
+    
+    lazy var refreshControl: UIRefreshControl = {
+        return UIRefreshControl()
+    }()
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
         viewModel.loadProducts()
-        bindingCollectionViewDataSource()
+        bindindToViewModel()
     }
     
     private func setupViews(){
@@ -47,7 +64,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         collectionView.easy.layout(Top(15).to(view.safeAreaLayoutGuide, .top),
                                    Leading(15).to(view),
                                    Trailing(15).to(view),
-                                   Height(*0.5).like(view))
+                                   Height(*0.55).like(view))
     }
     
     private func setupCollectionCellSize(){
@@ -56,12 +73,9 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         collectionViewLayout.itemSize = CGSize(width: width , height: height)
     }
     
-    func bindingCollectionViewDataSource(){
-        viewModel.products.bind(to: collectionView.rx.items){ (collection , index , item) in
-            let index = IndexPath(row: index, section: 0)
-            let cell = collection.dequeueReusableCell(withReuseIdentifier: String(describing: ProductsCell.self), for: index) as! ProductsCell
-            cell.configure(with: item)
-            return cell
-        }.disposed(by: disposeBag)
+    private func bindindToViewModel(){
+        bindingCollectionViewDataSource()
+        bindingRefreshControl()
+        bindingIsLoading()
     }
 }

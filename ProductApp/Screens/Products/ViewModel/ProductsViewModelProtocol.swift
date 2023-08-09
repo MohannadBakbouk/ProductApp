@@ -10,5 +10,6 @@ import RxSwift
 
 protocol ProductsViewModelProtocol: BaseViewModelProtocol{
     var products: BehaviorSubject<[ProductViewData]> {get}
+    var refreshTrigger : PublishSubject<Void> {get}
     func loadProducts()
 }
