@@ -42,6 +42,10 @@ final class MainCoordinator: Coordinator{
         navigationController.popViewController(animated: true)
     }
     
+    func dismiss() {
+        navigationController.dismiss(animated: true)
+    }
+    
 }
 
 extension MainCoordinator {

@@ -45,4 +45,8 @@ extension UIColor {
     static var bagColor: UIColor{
         return UIColor(hexString: "F93963")
     }
+    
+    static var handelColor: UIColor{
+        return UIColor(hexString: "B6B8C5")
+    }
 }

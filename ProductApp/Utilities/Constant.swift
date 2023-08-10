@@ -32,5 +32,6 @@ enum Images {
     static let filledStar = "star.fill"
     static let halfFilledStar = "star.leadinghalf.fill"
     static let bars = "line.3.horizontal.decrease.circle.fill"
+    static let checkMark = "checkmark"
 }
 
