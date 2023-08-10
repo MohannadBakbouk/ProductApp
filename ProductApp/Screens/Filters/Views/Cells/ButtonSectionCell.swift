@@ -66,8 +66,7 @@ final class ButtonSectionCell: UITableViewCell {
     private func setupConstraints(){
         handlerView.easy.layout(Top(0), CenterX(), Width(*0.20).like(contentView), Height(5))
         buttonsStack.easy.layout(Top(10).to(handlerView, .bottom),
-                                   Leading(15),
-                                   Trailing(15))
+                                 Leading(15), Trailing(15))
         lineView.easy.layout(Leading(), Trailing(), Top(10).to(buttonsStack, .bottom), Bottom(), Height(1))
     }
 }

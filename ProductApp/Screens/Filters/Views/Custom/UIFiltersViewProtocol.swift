@@ -11,7 +11,7 @@ import RxSwift
 
 /* I did define the protocol, enabling me to replace the UIFiltersView easily with any other view, confirms this as well as inherits of UIView  */
 protocol UIFiltersViewProtocol: UIView{
-    var restButtonTapped: PublishSubject<Void>{get}
+    var resetButtonTapped: PublishSubject<Void>{get}
     var filtersButtonTapped: PublishSubject<Void>{get}
     var doneButtonTapped: PublishSubject<Void>{get}
     var selectedCategory: PublishSubject<Category>{get}

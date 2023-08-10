@@ -100,5 +100,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         bindingRefreshControl()
         bindingIsLoading()
         bindingFiltersButton()
+        bindingSelectedFilterParams()
+        bindingClearSelectedFilters()
     }
 }

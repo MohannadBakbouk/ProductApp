@@ -15,6 +15,7 @@ final class SortMethodSectionCell: UITableViewCell {
     private var heightConstraint: NSLayoutConstraint?
     private let initHeight: CGFloat = 170.0
     let disposeBag = DisposeBag()
+    var resetSelection = PublishSubject<Void>() //Input
     
     private lazy var titleLabel: UILabel = {
         let lab = UILabel()
@@ -44,6 +45,7 @@ final class SortMethodSectionCell: UITableViewCell {
          return dataSource
     }()
     
+    //Output
     var selectedSortMethod: Observable<SortMethod>{
         return tableView.rx.modelSelected(SortMethod.self).asObservable()
     }
@@ -63,6 +65,7 @@ final class SortMethodSectionCell: UITableViewCell {
         tableView.register(SortMethodItemCell.self)
         setupConstraints()
         bindingCategories()
+        subscribingToResetSelectedItem()
     }
 
     private func setupConstraints(){
@@ -87,5 +90,13 @@ final class SortMethodSectionCell: UITableViewCell {
         .map{[SectionModel(model: "", items: $0)]}
         .bind(to: tableView.rx.items(dataSource: tableDataSource))
         .disposed(by: disposeBag)
+    }
+    
+    private func subscribingToResetSelectedItem(){
+        resetSelection
+        .subscribe(onNext:{[weak self] _ in
+            guard let index = self?.tableView.indexPathForSelectedRow else {return}
+            self?.tableView.deselectRow(at: index, animated: false)
+        }).disposed(by: disposeBag)
     }
 }

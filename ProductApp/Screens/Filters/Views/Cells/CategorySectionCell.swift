@@ -14,9 +14,9 @@ import RxCocoa
 final class CategorySectionCell: UITableViewCell {
     private var heightConstraint: NSLayoutConstraint?
     private let initHeight: CGFloat = 75.0
-
+    var resetSelection = PublishSubject<Void>()//Input
     let disposeBag = DisposeBag()
-    
+
     private lazy var titleLabel: UILabel = {
         let lab = UILabel()
         lab.textColor = .detailsColor
@@ -62,6 +62,7 @@ final class CategorySectionCell: UITableViewCell {
         super.init(style: style, reuseIdentifier: reuseIdentifier)
         setupViews()
         bindingCategories()
+        subscribingToResetSelectedItem()
     }
     
     required init?(coder: NSCoder) {
@@ -75,7 +76,7 @@ final class CategorySectionCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
-    
+    //Output
     var selectedCategory: Observable<Category>{
         return collectionView.rx.modelSelected(Category.self).asObservable()
     }
@@ -85,6 +86,7 @@ final class CategorySectionCell: UITableViewCell {
         contentView.addSubview(mainStack)
         collectionView.register(CategoryItemCell.self)
         setupConstraints()
+        subscribingToResetSelectedItem()
     }
     
     private func setupConstraints(){
@@ -108,5 +110,14 @@ final class CategorySectionCell: UITableViewCell {
         .map{[SectionModel(model: "", items: $0)]}
         .bind(to: collectionView.rx.items(dataSource: collectionDataSource))
         .disposed(by: disposeBag)
+    }
+    
+    
+    private func subscribingToResetSelectedItem(){
+        resetSelection
+        .subscribe(onNext:{[weak self] _ in
+            guard let index = self?.collectionView.indexPathsForSelectedItems?.first else {return}
+            self?.collectionView.deselectItem(at: index, animated: false)
+        }).disposed(by: disposeBag)
     }
 }

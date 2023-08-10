@@ -36,4 +36,20 @@ extension ProductsController{
             (self?.coordinator as? MainCoordinator)?.showFilters()
         }).disposed(by: disposeBag)
     }
+    
+    func bindingSelectedFilterParams(){
+        NotificationCenter.default.rx
+        .notification(.selectedFilters)
+        .subscribe(onNext:{[weak self] info in
+            self?.viewModel.selectedFilters.onNext(info.object as? FilterParams)
+        }).disposed(by: disposeBag)
+    }
+    
+    func bindingClearSelectedFilters(){
+        NotificationCenter.default.rx
+        .notification(.clearFilters)
+        .subscribe(onNext:{[weak self] _ in
+            self?.viewModel.clearFilters.onNext(())
+        }).disposed(by: disposeBag)
+    }
 }

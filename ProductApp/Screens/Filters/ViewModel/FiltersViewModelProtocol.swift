@@ -6,7 +6,11 @@
 //
 
 import Foundation
+import RxSwift
+import RxCocoa
 
 protocol FiltersViewModelProtocol: BaseViewModelProtocol{
-    
+    var selectedCategory: BehaviorRelay<Category?>{get}
+    var selectedSortMethod: BehaviorRelay<SortMethod?>{get}
+    var selectedParams: FilterParams{get}
 }

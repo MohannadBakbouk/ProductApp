@@ -33,8 +33,7 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        bindingSwipeGesture()
-        bindingFiltersEventsTest()
+        bindingEvents()
     }
     
     private func setupViews(){
@@ -48,6 +47,12 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
         contaitnerView.easy.layout(Bottom(0).to(view, .bottom), Leading(0).to(view), Trailing(0).to(view))
         filtersView.easy.layout(Leading(0),Trailing(0),Top(15), Bottom(50))
     }
+    
+    private func bindingEvents(){
+        bindingSwipeGesture()
+        bindingFiltersEvent()
+        bindingFiltersInfoToViewModel()
+    }
 
     private func bindingSwipeGesture(){
         swipeGesture.rx.event
@@ -57,31 +62,30 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
         }).disposed(by: disposeBag)
     }
     
-    private func bindingFiltersEventsTest(){
-        filtersView.restButtonTapped
-        .subscribe(onNext:{ event in
-            print("restButtonTapped")
+    private func bindingFiltersEvent(){
+        filtersView.resetButtonTapped
+        .subscribe(onNext:{ _ in
+            NotificationCenter.default.post(name: .clearFilters, object: nil)
         }).disposed(by: disposeBag)
         
         filtersView.filtersButtonTapped
-        .subscribe(onNext:{ event in
-            print("filtersButtonTapped")
+        .subscribe(onNext:{[unowned self] _ in
+            NotificationCenter.default.post(name: .selectedFilters, object: self.viewModel.selectedParams)
         }).disposed(by: disposeBag)
         
         filtersView.doneButtonTapped
         .subscribe(onNext:{[weak self] _ in
             self?.coordinator?.dismiss()
         }).disposed(by: disposeBag)
-        
+    }
+    
+    private func bindingFiltersInfoToViewModel(){
         filtersView.selectedCategory
-        .subscribe(onNext: { event in
-          print(event)
-        }).disposed(by: disposeBag)
+        .bind(to: viewModel.selectedCategory)
+        .disposed(by: disposeBag)
         
         filtersView.selectedSortMethod
-        .subscribe(onNext: { event in
-          print(event)
-        }).disposed(by: disposeBag)
-        
+        .bind(to: viewModel.selectedSortMethod)
+        .disposed(by: disposeBag)
     }
 }

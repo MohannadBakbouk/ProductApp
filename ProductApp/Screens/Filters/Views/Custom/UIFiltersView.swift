@@ -70,7 +70,7 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
         .disposed(by: disposeBag)
     }
     
-    var restButtonTapped =  PublishSubject<Void>()
+    var resetButtonTapped =  PublishSubject<Void>()
     var filtersButtonTapped =  PublishSubject<Void>()
     var doneButtonTapped =  PublishSubject<Void>()
     var selectedCategory = PublishSubject<Category>()
@@ -96,7 +96,7 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
         case .buttonItem:
              guard let buttonSectionCell = cell as? ButtonSectionCell else {return}
             // I don't like to repeat that for each button, Introduced an alternative solution using the zip function
-            _ =  zip(buttonSectionCell.controlEvents, [restButtonTapped, filtersButtonTapped, doneButtonTapped])
+            _ =  zip(buttonSectionCell.controlEvents, [resetButtonTapped, filtersButtonTapped, doneButtonTapped])
                 .map{[unowned self] event , publisher  in
                     event.throttle(RxTimeInterval.milliseconds(500), scheduler: MainScheduler.instance)
                    .bind(to: publisher)
@@ -104,14 +104,21 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
                 }
         case .categoryItem:
                 guard let categoriesCell = cell as? CategorySectionCell else {return}
-                categoriesCell.selectedCategory
+                categoriesCell.selectedCategory // output
                 .bind(to: selectedCategory)
+                .disposed(by: disposeBag)
+            
+                resetButtonTapped.bind(to: categoriesCell.resetSelection) // input
                 .disposed(by: disposeBag)
          case .sortMethodItem:
                 guard let sortMethodsCell = cell as? SortMethodSectionCell else {return}
-                sortMethodsCell.selectedSortMethod
+                sortMethodsCell.selectedSortMethod // output
                 .bind(to: selectedSortMethod)
                 .disposed(by: disposeBag)
+            
+                 resetButtonTapped.bind(to: sortMethodsCell.resetSelection)  // input
+                .disposed(by: disposeBag)
+            
         }
     }
 }
