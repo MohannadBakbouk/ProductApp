@@ -52,4 +52,11 @@ extension ProductsController{
             self?.viewModel.clearFilters.onNext(())
         }).disposed(by: disposeBag)
     }
+    
+    func bindingCollectionSelectItem(){
+        collectionView.rx.modelSelected(ProductViewData.self)
+       .subscribe(onNext: {[weak self] selectedItem in
+           (self?.coordinator as? MainCoordinator)?.showProductsDetails(info: selectedItem)
+       }).disposed(by: disposeBag)
+    }
 }

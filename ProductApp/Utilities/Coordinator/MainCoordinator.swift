@@ -28,8 +28,9 @@ final class MainCoordinator: Coordinator{
         pushViewControllerToStack(with:productsScreen, animated: false, isRoot: true)
     }
     
-    func showProductsDetails(){
-        
+    func showProductsDetails(info: ProductViewData){
+        let detailsScreen = ProductDetailsController(viewModel: ProductDetailsViewModel(info: info), coordinator: self)
+        pushViewControllerToStack(with:detailsScreen, animated: false, isRoot: false)
     }
     
     func showFilters(){

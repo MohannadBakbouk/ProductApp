@@ -7,6 +7,9 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		0406DD3C2A86122B00FED117 /* ProductDetailsViewModelProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0406DD3B2A86122B00FED117 /* ProductDetailsViewModelProtocol.swift */; };
+		0406DD3E2A86129300FED117 /* ProductDetailsController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0406DD3D2A86129300FED117 /* ProductDetailsController.swift */; };
+		0406DD402A8612E800FED117 /* ProductDetailsViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0406DD3F2A8612E800FED117 /* ProductDetailsViewModel.swift */; };
 		0410684D2A84BF5B00B47B53 /* ButtonSectionCell.swift in Sources */ = {isa = PBXBuildFile; fileRef = 0410684C2A84BF5B00B47B53 /* ButtonSectionCell.swift */; };
 		041068532A84D56600B47B53 /* FilterItem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041068522A84D56600B47B53 /* FilterItem.swift */; };
 		041068552A84D58400B47B53 /* FilterSectionModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 041068542A84D58400B47B53 /* FilterSectionModel.swift */; };
@@ -87,6 +90,9 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		0406DD3B2A86122B00FED117 /* ProductDetailsViewModelProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewModelProtocol.swift; sourceTree = "<group>"; };
+		0406DD3D2A86129300FED117 /* ProductDetailsController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsController.swift; sourceTree = "<group>"; };
+		0406DD3F2A8612E800FED117 /* ProductDetailsViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProductDetailsViewModel.swift; sourceTree = "<group>"; };
 		0410684C2A84BF5B00B47B53 /* ButtonSectionCell.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ButtonSectionCell.swift; sourceTree = "<group>"; };
 		041068522A84D56600B47B53 /* FilterItem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterItem.swift; sourceTree = "<group>"; };
 		041068542A84D58400B47B53 /* FilterSectionModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FilterSectionModel.swift; sourceTree = "<group>"; };
@@ -187,6 +193,32 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		0406DD382A8611B600FED117 /* ProductDetails */ = {
+			isa = PBXGroup;
+			children = (
+				0406DD392A8611DB00FED117 /* Views */,
+				0406DD3A2A8611EF00FED117 /* ViewModel */,
+			);
+			path = ProductDetails;
+			sourceTree = "<group>";
+		};
+		0406DD392A8611DB00FED117 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				0406DD3D2A86129300FED117 /* ProductDetailsController.swift */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		0406DD3A2A8611EF00FED117 /* ViewModel */ = {
+			isa = PBXGroup;
+			children = (
+				0406DD3B2A86122B00FED117 /* ProductDetailsViewModelProtocol.swift */,
+				0406DD3F2A8612E800FED117 /* ProductDetailsViewModel.swift */,
+			);
+			path = ViewModel;
+			sourceTree = "<group>";
+		};
 		041068512A84D54900B47B53 /* Model */ = {
 			isa = PBXGroup;
 			children = (
@@ -311,6 +343,7 @@
 			children = (
 				04AFC9172A829B3400904B0F /* Base */,
 				04AFC90D2A82937900904B0F /* Products */,
+				0406DD382A8611B600FED117 /* ProductDetails */,
 				04115A1C2A83CE2600A0CBC5 /* Filters */,
 				04AFC9042A82926C00904B0F /* Splash */,
 			);
@@ -771,6 +804,7 @@
 				04AFC91E2A829DD200904B0F /* ErrorDataView.swift in Sources */,
 				04AFC9362A82A9BF00904B0F /* NetworkManager.swift in Sources */,
 				04AFC9232A82A0F200904B0F /* ProductsViewModel.swift in Sources */,
+				0406DD402A8612E800FED117 /* ProductDetailsViewModel.swift in Sources */,
 				04AFC8CD2A8288BC00904B0F /* AppDelegate.swift in Sources */,
 				04AFC9302A82A8BA00904B0F /* Dictionary.swift in Sources */,
 				04AFC9142A8298DA00904B0F /* UINavigationController.swift in Sources */,
@@ -791,6 +825,7 @@
 				04115A1F2A83CE5700A0CBC5 /* FiltersController.swift in Sources */,
 				04AFC8CF2A8288BC00904B0F /* SceneDelegate.swift in Sources */,
 				04AFC9192A829B4D00904B0F /* BaseViewController.swift in Sources */,
+				0406DD3C2A86122B00FED117 /* ProductDetailsViewModelProtocol.swift in Sources */,
 				0410685A2A85419800B47B53 /* UIFiltersViewProtocol.swift in Sources */,
 				04115A1B2A83B6EB00A0CBC5 /* UIStackView.swift in Sources */,
 				04115A152A839A3800A0CBC5 /* ProductsController+Binding.swift in Sources */,
@@ -816,6 +851,7 @@
 				04AFC9342A82A98600904B0F /* NetworkManagerProtocol.swift in Sources */,
 				04AFC90F2A82939800904B0F /* ProductsController.swift in Sources */,
 				04115A242A83CEDB00A0CBC5 /* FiltersViewModel.swift in Sources */,
+				0406DD3E2A86129300FED117 /* ProductDetailsController.swift in Sources */,
 				04AFC9482A82D59400904B0F /* UIRatingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

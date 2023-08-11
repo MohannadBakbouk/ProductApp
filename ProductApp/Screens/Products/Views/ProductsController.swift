@@ -19,7 +19,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
         collection.refreshControl = refreshControl
-        collection.contentInset.top = 25
+        collection.addSubview(refreshControl)
         return collection
     }()
     
@@ -64,12 +64,16 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         bindindToViewModel()
     }
     
+    override func viewDidLayoutSubviews() {
+        super.viewDidLayoutSubviews()
+        setupCollectionCellSize()
+    }
+    
     private func setupViews(){
         view.backgroundColor = .white
         view.addSubviews(contentOf: [headerView, titleLabel, collectionView])
         collectionView.register(ProductsCell.self)
         setupConstraints()
-        setupCollectionCellSize()
     }
     
     private func setupConstraints(){
@@ -83,15 +87,15 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
                               Trailing(15).to(view),
                               Height(50))
         
-        collectionView.easy.layout(Top(-10).to(titleLabel, .bottom),
+        collectionView.easy.layout(Top(10).to(titleLabel, .bottom),
                                    Leading(15).to(view),
                                    Trailing(15).to(view),
-                                   Height(*0.55).like(view))
+                                   Height(*0.5).like(view))
     }
     
     private func setupCollectionCellSize(){
-        let width = (UIScreen.main.bounds.width / 1.5) - 10
-        let height = (UIScreen.main.bounds.height * 0.5) - 10
+        let width = (collectionView.frame.width / 1.5) - 10
+        let height = (collectionView.frame.height) - 10
         collectionViewLayout.itemSize = CGSize(width: width , height: height)
     }
     
@@ -102,5 +106,6 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         bindingFiltersButton()
         bindingSelectedFilterParams()
         bindingClearSelectedFilters()
+        bindingCollectionSelectItem()
     }
 }

@@ -132,9 +132,15 @@ final class ProductsCell: UICollectionViewCell {
         layer.shadowRadius = 5
         layer.shadowOffset = CGSize(width: 0, height: 0)
         layer.shadowColor = UIColor.black.cgColor
-
         contentView.backgroundColor = .white
         contentView.layer.cornerRadius = 8
+    }
+    
+    override func layoutSubviews() {
+        super.layoutSubviews()
+        guard deliveryLabel.frame == .zero else {return}
+        deliveryLabel.layoutIfNeeded()
+        deliveryLabel.layer.cornerRadius = deliveryLabel.frame.height / 2
     }
     
     func configure(with model : ProductViewData){
