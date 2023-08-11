@@ -8,6 +8,7 @@
 import Foundation
 import RxSwift
 import RxCocoa
+import RealmSwift
 
 final class ProductsViewModel: ProductsViewModelProtocol{
     var disposeBag: DisposeBag
@@ -17,9 +18,11 @@ final class ProductsViewModel: ProductsViewModelProtocol{
     var refreshTrigger: PublishSubject<Void>
     var selectedFilters: BehaviorSubject<FilterParams?>
     var clearFilters: PublishSubject<Void>
+    var loadCachedProductsOrFireError: PublishSubject<NetworkError> //internal event
+    var cachingProductsTrigger: PublishSubject<[Product]>           //internal event
     let service: ProductServiceProtocol
     let cacheManager: CacheManagerProtocol
-    var fetchedProducts: [Product]
+    var allProducts: [Product]
    
     
     init(service: ProductServiceProtocol,cacheManager: CacheManagerProtocol) {
@@ -30,23 +33,29 @@ final class ProductsViewModel: ProductsViewModelProtocol{
         self.refreshTrigger = PublishSubject()
         self.selectedFilters = BehaviorSubject(value: nil)
         self.clearFilters = PublishSubject<Void>()
-        self.fetchedProducts = []
+        self.loadCachedProductsOrFireError = PublishSubject()
+        self.cachingProductsTrigger = PublishSubject()
+        self.allProducts = []
         self.service = service
         self.cacheManager = cacheManager
         subscribingToRefreshTrigger()
         subscribingToSelectedFilters()
         subscribingToClearFilters()
+        subscribingToloadCachedProductsOrFireError()
+        subscribingToCacheProductsTrigger()
     }
     
     func loadProducts() {
         isLoading.onNext(true)
         service.getProducts()
         .subscribe(onNext: {[weak self] items in
-            self?.fetchedProducts = items
+            self?.allProducts = items
             self?.isLoading.onNext(false)
             self?.products.onNext(items.map{ProductViewData(info: $0)})
-        }, onError : { error in
-            print((error as? NetworkError)?.message)
+            self?.cachingProductsTrigger.onNext(items)
+        }, onError : {[weak self] error in
+            let networkError = error as? NetworkError ?? .errorOccured
+            self?.loadCachedProductsOrFireError.onNext(networkError)
         }).disposed(by: disposeBag)
     }
     
@@ -59,8 +68,11 @@ final class ProductsViewModel: ProductsViewModelProtocol{
     private func subscribingToSelectedFilters(){
          selectedFilters
         .compactMap{$0}
-        .subscribe(onNext:{[weak self] item in
-            // write the filter implementation in case i had time
+        .subscribe(onNext:{[weak self] params in
+            guard let self = self else {return}
+            let items = params.category != nil ? allProducts.filter{$0.category == params.category!} : allProducts
+            self.products.onNext(items.map{ProductViewData(info: $0)})
+            // write the filter implementation in case i had time for sort method
         }).disposed(by: disposeBag)
     }
     
@@ -69,8 +81,33 @@ final class ProductsViewModel: ProductsViewModelProtocol{
         .subscribe(onNext:{[weak self] _ in
             guard let self = self else {return}
             self.selectedFilters.onNext(nil)
-            self.products.onNext(self.fetchedProducts.map{ProductViewData(info: $0)})
+            self.products.onNext(self.allProducts.map{ProductViewData(info: $0)})
         }).disposed(by: disposeBag)
     }
-
+    
+    private func subscribingToloadCachedProductsOrFireError(){
+         loadCachedProductsOrFireError
+        .subscribe(onNext: {[weak self] error in
+            guard let self = self  else {return}
+            guard let items = self.cacheManager.fetch(entity: ProductObject.self) , items.count > 0 else {
+                  self.isLoading.onNext(false)
+                  self.error.onNext(ErrorDataView(with: error))
+                  return
+            }
+            let products = items.map{Product(info: $0)}
+            self.allProducts = products
+            self.products.onNext(products.map{ProductViewData(info: $0)})
+            self.isLoading.onNext(false)
+        }).disposed(by: disposeBag)
+    }
+    
+    private func subscribingToCacheProductsTrigger(){
+        cachingProductsTrigger
+        .subscribe(onNext:{[weak self] items in
+            self?.cacheManager.addBatch(items: items.map{ProductObject(info: $0)})
+        }).disposed(by: disposeBag)
+    }
 }
+
+
+
