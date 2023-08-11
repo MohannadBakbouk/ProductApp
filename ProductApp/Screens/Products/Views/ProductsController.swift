@@ -12,13 +12,37 @@ import RxDataSources
 import EasyPeasy
 
 final class ProductsController: BaseViewController<ProductsViewModel> {
+
+    lazy var headerView: UIHeaderView = {
+        return UIHeaderView()
+    }()
+    
+    private lazy var scrollView : UIScrollView = {
+        let scroll = UIScrollView()
+        scroll.showsVerticalScrollIndicator = false
+        scroll.showsHorizontalScrollIndicator = false
+        scroll.refreshControl = refreshControl
+        return scroll
+    }()
+    
+    private var container : UIView = {
+        let view = UIView()
+        return view
+    }()
+    
+    private let titleLabel: UILabel = {
+         let lab = UILabel()
+         lab.text = "Discovery new places"
+         lab.textColor = .titleColor
+         lab.font = UIFont.systemFont(ofSize: 30, weight: .regular)
+         return lab
+    }()
     
     lazy var collectionView : UICollectionView = {
         let collection = UICollectionView(frame: .zero , collectionViewLayout: collectionViewLayout)
         collection.allowsMultipleSelection = false
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
-        collection.refreshControl = refreshControl
         return collection
     }()
     
@@ -44,24 +68,12 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         return UIRefreshControl()
     }()
     
-    lazy var headerView: UIHeaderView = {
-        return UIHeaderView()
-    }()
-    
     let activityIndicatorView : UIActivityIndicatorView = {
         let indicator = UIActivityIndicatorView()
         indicator.style = UIActivityIndicatorView.Style.large
         indicator.color = .darkGray
         indicator.hidesWhenStopped = true
         return indicator
-    }()
-    
-    private let titleLabel: UILabel = {
-         let lab = UILabel()
-         lab.text = "Discovery new places"
-         lab.textColor = .titleColor
-         lab.font = UIFont.systemFont(ofSize: 30, weight: .regular)
-         return lab
     }()
     
     override func viewDidLoad() {
@@ -73,12 +85,15 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     
     override func viewDidLayoutSubviews() {
         super.viewDidLayoutSubviews()
+        _ = collectionView.frame == .zero ? collectionView.layoutIfNeeded() : ()
         setupCollectionCellSize()
     }
     
     private func setupViews(){
         view.backgroundColor = .white
-        view.addSubviews(contentOf: [headerView, titleLabel, collectionView, activityIndicatorView])
+        view.addSubviews(contentOf: [headerView,scrollView, activityIndicatorView])
+        scrollView.addSubview(container)
+        container.addSubviews(contentOf: [titleLabel, collectionView])
         collectionView.register(ProductsCell.self)
         setupConstraints()
     }
@@ -88,22 +103,22 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
                               Leading(15).to(view),
                               Trailing(15).to(view),
                               Height(50))
-        
-        titleLabel.easy.layout(Top(15).to(headerView, .bottom),
-                              Leading(15).to(view),
-                              Trailing(15).to(view),
-                              Height(50))
-        
-        collectionView.easy.layout(Top(10).to(titleLabel, .bottom),
-                                   Leading(15).to(view),
-                                   Trailing(15).to(view),
-                                   Height(*0.5).like(view))
         activityIndicatorView.easy.layout(Size(25), Center())
+        
+        scrollView.easy.layout(Top(15).to(headerView, .bottom),Leading(15),Trailing(15),                                     Height(*0.65).like(view))
+        container.easy.layout(Edges(),
+                              Width().like(scrollView).with(.required),
+                              Height().like(scrollView).with(.low))
+        
+        titleLabel.easy.layout(Top(15),Leading(0),Trailing(0), Height(50))
+        collectionView.easy.layout(Top(10).to(titleLabel, .bottom), Leading(0),
+                                   Trailing(0), Bottom(5))
     }
     
     private func setupCollectionCellSize(){
-        let width = (collectionView.frame.width / 1.5) - 10
-        let height = (collectionView.frame.height) - 10
+        let sectionInset = collectionViewLayout.sectionInset
+        let width = (collectionView.frame.width / 1.5) - (sectionInset.left + sectionInset.right)
+        let height = (collectionView.frame.height) - (sectionInset.top + sectionInset.bottom)
         collectionViewLayout.itemSize = CGSize(width: width , height: height)
     }
     

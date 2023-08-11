@@ -69,7 +69,8 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
         }).disposed(by: disposeBag)
         
         filtersView.filtersButtonTapped
-        .subscribe(onNext:{[unowned self] _ in
+        .subscribe(onNext:{[weak self] _ in
+            guard let self = self else {return}
             NotificationCenter.default.post(name: .selectedFilters, object: self.viewModel.selectedParams)
         }).disposed(by: disposeBag)
         

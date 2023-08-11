@@ -111,8 +111,9 @@ final class UIProductDetailsView: UIView{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        let width = (collectionView.frame.width / 2.5) - collectionViewLayout.sectionInset.left
-        let height = (collectionView.frame.height) - (collectionViewLayout.sectionInset.top + collectionViewLayout.sectionInset.bottom)
+        let sectionInset = collectionViewLayout.sectionInset
+        let width = (collectionView.frame.width / 2.5) - (sectionInset.left + sectionInset.right)
+        let height = (collectionView.frame.height) - (sectionInset.top + sectionInset.bottom)
         collectionViewLayout.itemSize = CGSize(width: width , height: height)
         collectionViewLayout.invalidateLayout()
     }
