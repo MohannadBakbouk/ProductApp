@@ -48,6 +48,14 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         return UIHeaderView()
     }()
     
+    let activityIndicatorView : UIActivityIndicatorView = {
+        let indicator = UIActivityIndicatorView()
+        indicator.style = UIActivityIndicatorView.Style.large
+        indicator.color = .darkGray
+        indicator.hidesWhenStopped = true
+        return indicator
+    }()
+    
     private let titleLabel: UILabel = {
          let lab = UILabel()
          lab.text = "Discovery new places"
@@ -59,8 +67,8 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     override func viewDidLoad() {
         super.viewDidLoad()
         setupViews()
-        viewModel.loadProducts()
         bindingToViewModel()
+        viewModel.loadProducts()
     }
     
     override func viewDidLayoutSubviews() {
@@ -70,7 +78,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     
     private func setupViews(){
         view.backgroundColor = .white
-        view.addSubviews(contentOf: [headerView, titleLabel, collectionView])
+        view.addSubviews(contentOf: [headerView, titleLabel, collectionView, activityIndicatorView])
         collectionView.register(ProductsCell.self)
         setupConstraints()
     }
@@ -90,6 +98,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
                                    Leading(15).to(view),
                                    Trailing(15).to(view),
                                    Height(*0.5).like(view))
+        activityIndicatorView.easy.layout(Size(25), Center())
     }
     
     private func setupCollectionCellSize(){
@@ -102,6 +111,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         bindingCollectionViewDataSource()
         bindingRefreshControl()
         bindingIsLoading()
+        bindingIsRefreshing()
         bindingFiltersButton()
         bindingSelectedFilterParams()
         bindingClearSelectedFilters()

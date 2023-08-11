@@ -13,6 +13,7 @@ import RealmSwift
 final class ProductsViewModel: ProductsViewModelProtocol{
     var disposeBag: DisposeBag
     var isLoading: PublishSubject<Bool>
+    var isRefreshing: BehaviorRelay<Bool>
     var error: BehaviorSubject<ErrorDataView?>
     var products: BehaviorSubject<[ProductViewData]>
     var refreshTrigger: PublishSubject<Void>
@@ -28,6 +29,7 @@ final class ProductsViewModel: ProductsViewModelProtocol{
     init(service: ProductServiceProtocol,cacheManager: CacheManagerProtocol) {
         self.disposeBag = DisposeBag()
         self.isLoading = PublishSubject()
+        self.isRefreshing = BehaviorRelay(value: false)
         self.error = BehaviorSubject(value: nil)
         self.products = BehaviorSubject(value: [])
         self.refreshTrigger = PublishSubject()
@@ -53,6 +55,8 @@ final class ProductsViewModel: ProductsViewModelProtocol{
             self?.isLoading.onNext(false)
             self?.products.onNext(items.map{ProductViewData(info: $0)})
             self?.cachingProductsTrigger.onNext(items)
+            //_ = (self?.isRefreshing.value ?? false) ? self?.isRefreshing.accept(false) : ()
+            self?.isRefreshing.accept(false)
         }, onError : {[weak self] error in
             let networkError = error as? NetworkError ?? .errorOccured
             self?.loadCachedProductsOrFireError.onNext(networkError)
@@ -61,6 +65,7 @@ final class ProductsViewModel: ProductsViewModelProtocol{
     
     private func subscribingToRefreshTrigger(){
         refreshTrigger.subscribe(onNext:{[weak self]_ in
+            self?.isRefreshing.accept(true)
             self?.loadProducts()
         }).disposed(by: disposeBag)
     }

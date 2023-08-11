@@ -30,10 +30,16 @@ extension ProductsController{
         .disposed(by: disposeBag)
     }
     
-    func bindingIsLoading(){
-        viewModel.isLoading
+    func bindingIsRefreshing(){
+         viewModel.isRefreshing
         .bind(to: refreshControl.rx.isRefreshing)
         .disposed(by: disposeBag)
+    }
+    
+    func bindingIsLoading(){
+        viewModel.isLoading
+       .bind(to: activityIndicatorView.rx.isAnimating)
+       .disposed(by: disposeBag)
     }
     
     func bindingFiltersButton(){
