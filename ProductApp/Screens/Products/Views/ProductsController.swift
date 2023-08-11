@@ -61,7 +61,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         super.viewDidLoad()
         setupViews()
         viewModel.loadProducts()
-        bindindToViewModel()
+        bindingToViewModel()
     }
     
     override func viewDidLayoutSubviews() {
@@ -99,7 +99,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         collectionViewLayout.itemSize = CGSize(width: width , height: height)
     }
     
-    private func bindindToViewModel(){
+    private func bindingToViewModel(){
         bindingCollectionViewDataSource()
         bindingRefreshControl()
         bindingIsLoading()

@@ -10,6 +10,8 @@ import Foundation
 enum App {
     static var name = "Product App"
     static let author = "Mohannad Bakbouk"
+    static let phone = "01234567895"
+    static let address = "Address Str 70, 50111, Cologne"
 }
 
 enum API {
@@ -33,5 +35,7 @@ enum Images {
     static let halfFilledStar = "star.leadinghalf.fill"
     static let bars = "line.3.horizontal.decrease.circle.fill"
     static let checkMark = "checkmark"
+    static let phone = "phone.fill"
+    static let location = "location.fill"
+    static let back = "chevron.left"
 }
-

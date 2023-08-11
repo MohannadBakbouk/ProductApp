@@ -49,12 +49,12 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
     }
     
     private func bindingEvents(){
-        bindingSwipeGesture()
+        subscribingToSwipeGesture()
         bindingFiltersEvent()
         bindingFiltersInfoToViewModel()
     }
 
-    private func bindingSwipeGesture(){
+    private func subscribingToSwipeGesture(){
         swipeGesture.rx.event
         .asObservable()
         .subscribe(onNext: {[weak self] gesture in
