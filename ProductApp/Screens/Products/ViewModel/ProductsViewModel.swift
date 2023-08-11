@@ -76,8 +76,9 @@ final class ProductsViewModel: ProductsViewModelProtocol{
         .subscribe(onNext:{[weak self] params in
             guard let self = self else {return}
             let items = params.category != nil ? allProducts.filter{$0.category == params.category!} : allProducts
-            self.products.onNext(items.map{ProductViewData(info: $0)})
-            // write the filter implementation in case i had time for sort method
+            var productItems = items.map{ProductViewData(info: $0)}
+            productItems = params.sortMethod != nil ? self.sortProducts(method: params.sortMethod!, items: productItems) : productItems
+            self.products.onNext(productItems)
         }).disposed(by: disposeBag)
     }
     
@@ -115,4 +116,17 @@ final class ProductsViewModel: ProductsViewModelProtocol{
 }
 
 
-
+extension ProductsViewModel{
+    func sortProducts(method: SortMethod, items: [ProductViewData]) -> [ProductViewData]{
+        var sorted = items
+        sorted.sort{ lhs, rhs in
+            switch method{
+                case .topRated:       return lhs.rating.value > rhs.rating.value
+                case .nearest:        return lhs.id < rhs.id
+                case .highToLow:      return lhs.price > rhs.price
+                case .lowToHigh:      return lhs.price < rhs.price
+            }
+        }
+        return sorted
+    }
+}
