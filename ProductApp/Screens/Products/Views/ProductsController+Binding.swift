@@ -7,10 +7,16 @@
 
 import Foundation
 import RxCocoa
+import RxSwift
 import RxDataSources
 
 extension ProductsController{
     func bindingCollectionViewDataSource(){
+        viewModel.products
+        .subscribe(onNext:{[weak self] _ in
+            self?.collectionView.clearMessage()
+        }).disposed(by: disposeBag)
+        
         viewModel.products.map { items -> [SectionModel] in
             [SectionModel(model: "", items: items)]
         }
@@ -58,5 +64,14 @@ extension ProductsController{
        .subscribe(onNext: {[weak self] selectedItem in
            (self?.coordinator as? MainCoordinator)?.showProductsDetails(info: selectedItem)
        }).disposed(by: disposeBag)
+    }
+    
+    func bindingErrorMessage(){
+        viewModel.error
+        .observe(on: MainScheduler.instance)
+        .compactMap{$0}
+        .subscribe(onNext: {[weak self] error in
+            self?.collectionView.setMessage(error.message, icon: error.icon)
+        }).disposed(by: disposeBag)
     }
 }

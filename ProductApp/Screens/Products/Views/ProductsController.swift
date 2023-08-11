@@ -19,7 +19,6 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
         collection.refreshControl = refreshControl
-        collection.addSubview(refreshControl)
         return collection
     }()
     
@@ -107,5 +106,6 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         bindingSelectedFilterParams()
         bindingClearSelectedFilters()
         bindingCollectionSelectItem()
+        bindingErrorMessage()
     }
 }
