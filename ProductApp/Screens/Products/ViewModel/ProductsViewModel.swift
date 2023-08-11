@@ -18,10 +18,11 @@ final class ProductsViewModel: ProductsViewModelProtocol{
     var selectedFilters: BehaviorSubject<FilterParams?>
     var clearFilters: PublishSubject<Void>
     let service: ProductServiceProtocol
+    let cacheManager: CacheManagerProtocol
     var fetchedProducts: [Product]
    
     
-    init(service: ProductServiceProtocol) {
+    init(service: ProductServiceProtocol,cacheManager: CacheManagerProtocol) {
         self.disposeBag = DisposeBag()
         self.isLoading = PublishSubject()
         self.error = BehaviorSubject(value: nil)
@@ -31,6 +32,7 @@ final class ProductsViewModel: ProductsViewModelProtocol{
         self.clearFilters = PublishSubject<Void>()
         self.fetchedProducts = []
         self.service = service
+        self.cacheManager = cacheManager
         subscribingToRefreshTrigger()
         subscribingToSelectedFilters()
         subscribingToClearFilters()

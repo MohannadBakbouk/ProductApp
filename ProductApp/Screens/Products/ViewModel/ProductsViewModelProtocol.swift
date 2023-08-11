@@ -9,9 +9,9 @@ import Foundation
 import RxSwift
 
 protocol ProductsViewModelProtocol: BaseViewModelProtocol{
-    var products: BehaviorSubject<[ProductViewData]> {get}
-    var refreshTrigger : PublishSubject<Void> {get}
-    var selectedFilters: BehaviorSubject<FilterParams?> {get}
-    var clearFilters: PublishSubject<Void> {get}
+    var  products: BehaviorSubject<[ProductViewData]> {get}
+    var  refreshTrigger : PublishSubject<Void> {get}
+    var  selectedFilters: BehaviorSubject<FilterParams?> {get}
+    var  clearFilters: PublishSubject<Void> {get}
     func loadProducts()
 }

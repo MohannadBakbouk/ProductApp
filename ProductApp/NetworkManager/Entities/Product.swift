@@ -38,3 +38,16 @@ struct Product: Codable {
         
     }
 }
+
+
+extension Product{
+    init(info: ProductObject) {
+        id = info.id
+        title = info.title
+        description = info.details
+        image = info.image
+        category = Category(rawValue: info.category)
+        price = info.price
+        rating = Rating(rate: info.rating, count: info.reviewCount)
+    }
+}

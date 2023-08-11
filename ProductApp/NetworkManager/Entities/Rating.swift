@@ -26,4 +26,9 @@ struct Rating: Codable {
         self.rate   = 0.0
         self.count  = 0
     }
+    
+    init(rate: Double, count: Int) {
+        self.rate   = rate
+        self.count  = count
+    }
 }

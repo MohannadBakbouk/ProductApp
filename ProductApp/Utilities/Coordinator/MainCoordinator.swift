@@ -24,7 +24,8 @@ final class MainCoordinator: Coordinator{
     }
     
     func showProducts() {
-        let productsScreen = ProductsController(viewModel: ProductsViewModel(service: ProductService()), coordinator: self)
+        let viewModel = ProductsViewModel(service: ProductService(), cacheManager: CacheManager())
+        let productsScreen = ProductsController(viewModel: viewModel, coordinator: self)
         pushViewControllerToStack(with:productsScreen, animated: false, isRoot: true)
     }
     
