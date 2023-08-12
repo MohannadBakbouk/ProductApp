@@ -15,16 +15,19 @@ final class ProductsViewModelTests: XCTestCase {
     var viewModel : ProductsViewModelProtocol!
     var disposeBag : DisposeBag!
     var scheduler : TestScheduler!
+    var cacheManager: CacheManagerProtocol!
 
     override func setUpWithError() throws {
         scheduler = TestScheduler(initialClock: 0)
-        viewModel = ProductsViewModel(service: MockedProductService(), cacheManager: MockedCasheManager())
+        cacheManager = MockedCasheManager()
+        viewModel = ProductsViewModel(service: MockedProductService(), cacheManager: cacheManager)
         disposeBag = DisposeBag()
     }
 
     override func tearDownWithError() throws {
         scheduler = nil
         viewModel = nil
+        cacheManager = nil
         disposeBag = nil
     }
     
@@ -115,5 +118,29 @@ final class ProductsViewModelTests: XCTestCase {
         
         XCTAssert((sortedItems?.first?.price ==  prices.max()),  "Sorting filter doesn't work")
         XCTAssert((sortedItems?.last?.price  ==  prices.min()) , "Sorting filter doesn't work")
+    }
+    
+    func testCachingProducts(){
+       viewModel.products
+       .disposed(by: disposeBag)
+       viewModel.loadProducts()
+       let cachedItems = cacheManager.fetch(entity: ProductObject.self)
+       XCTAssert((cachedItems?.count ?? 0) > 0, "Products haven't cached successfully")
+    }
+    
+    func testAreCachedProductsPublishedAtError(){
+        let products = scheduler.createObserver([ProductViewData].self)
+        let items = MockedProductService.products()
+        cacheManager.addBatch(items: items.map{ProductObject(info: $0)})
+
+        viewModel.products
+        .bind(to: products)
+        .disposed(by: disposeBag)
+        viewModel.loadProducts()
+        
+        (viewModel as? ProductsViewModel)?.loadCachedProductsOrFireError.onNext(NetworkError.server) // trigger
+        
+        let receivedItems = products.events.last?.value.element
+        XCTAssert((receivedItems?.count ?? 0) > 0, "the cached products weren't published when there is an error")
     }
 }

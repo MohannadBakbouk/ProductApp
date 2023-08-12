@@ -31,4 +31,11 @@ extension MockedProductService{
               let response = try? JSONDecoder().decode([Product].self, from: data) else { return nil}
         return response.first
     }
+    
+    class func products() -> [Product]{
+        guard let url = Bundle.main.url(forResource: "ProductsResponse", withExtension: "json"),
+              let data =  try? Data(contentsOf: url),
+              let response = try? JSONDecoder().decode([Product].self, from: data) else { return []}
+        return response
+    }
 }
