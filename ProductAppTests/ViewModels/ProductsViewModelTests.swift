@@ -18,7 +18,7 @@ final class ProductsViewModelTests: XCTestCase {
 
     override func setUpWithError() throws {
         scheduler = TestScheduler(initialClock: 0)
-        viewModel = ProductsViewModel(service: MockedProductService(), cacheManager: CacheManager())
+        viewModel = ProductsViewModel(service: MockedProductService(), cacheManager: MockedCasheManager())
         disposeBag = DisposeBag()
     }
 
