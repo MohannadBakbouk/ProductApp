@@ -60,6 +60,7 @@ final class SortMethodSectionCell: UITableViewCell {
     }
     
     private func setupViews(){
+        accessibilityIdentifier = "SortMethodSection"
         selectionStyle = .none
         contentView.addSubviews(contentOf: [titleLabel, tableView])
         tableView.register(SortMethodItemCell.self)

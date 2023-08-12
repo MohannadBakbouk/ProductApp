@@ -22,6 +22,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         scroll.showsVerticalScrollIndicator = false
         scroll.showsHorizontalScrollIndicator = false
         scroll.refreshControl = refreshControl
+        scroll.accessibilityIdentifier = "ScrollViewContainer"
         return scroll
     }()
     
@@ -43,6 +44,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
         collection.allowsMultipleSelection = false
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
+        collection.accessibilityIdentifier = "ProductsCollection"
         return collection
     }()
     
@@ -65,7 +67,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     }()
     
     lazy var refreshControl: UIRefreshControl = {
-        return UIRefreshControl()
+        return  UIRefreshControl()
     }()
     
     let activityIndicatorView : UIActivityIndicatorView = {

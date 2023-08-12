@@ -23,6 +23,7 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
         table.isScrollEnabled = false
         table.rowHeight = UITableView.automaticDimension
         table.separatorStyle = .none
+        table.accessibilityIdentifier = "FiltersTable"
         return table
     }()
     
@@ -118,7 +119,6 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
             
                  resetButtonTapped.bind(to: sortMethodsCell.resetSelection)  // input
                 .disposed(by: disposeBag)
-            
         }
     }
 }

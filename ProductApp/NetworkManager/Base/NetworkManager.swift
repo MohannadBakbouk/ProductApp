@@ -12,7 +12,7 @@ import RxSwift
 final class NetworkManager: NetworkManagerProtocol{
     func request<T>(endpoint: Endpoint) -> Observable<T> where T: Codable{
         guard var url = API.baseUrl.asURL() else {return Observable.error(NetworkError.invalidUrl)}
-        _ =  endpoint.method == .Get ? url.append(queryItems: endpoint.params.asQueryItems) : ()
+        _ =  endpoint.method == .Get  && endpoint.params.count > 0 ? url.append(queryItems: endpoint.params.asQueryItems) : ()
         var request = URLRequest(url: url.appendingPathComponent(endpoint.path))
         request.httpMethod = endpoint.method.rawValue
         request.addValue(API.content, forHTTPHeaderField: "Content-Type")

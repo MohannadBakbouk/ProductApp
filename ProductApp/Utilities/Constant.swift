@@ -15,7 +15,8 @@ enum App {
 }
 
 enum API {
-    static let baseUrl = "https://fakestoreapi.com/"
+    static var baseUrl = "https://fakestoreapi.com/"
+    static let localUrl = "http://localhost:8080/"
     static let content = "application/json; charset=utf-8"
 }
 

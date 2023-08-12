@@ -27,6 +27,7 @@ target 'ProductApp' do
 
   target 'ProductAppUITests' do
     # Pods for testing
+   pod 'Swifter', '~> 1.5.0'
   end
 
 end

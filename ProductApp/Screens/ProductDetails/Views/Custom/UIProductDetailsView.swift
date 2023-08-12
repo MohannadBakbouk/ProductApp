@@ -15,7 +15,7 @@ final class UIProductDetailsView: UIView{
     private let disposeBag = DisposeBag()
     private let titleLabel: UILabel = {
         let lab = UILabel()
-        lab.text = ""
+        lab.accessibilityIdentifier = "ProductTitle"
         lab.font = UIFont.boldSystemFont(ofSize: 30)
         lab.numberOfLines = 0
         lab.textColor = .titleColor
@@ -27,6 +27,7 @@ final class UIProductDetailsView: UIView{
         lab.text = ""
         lab.font = UIFont.boldSystemFont(ofSize: 18)
         lab.numberOfLines = 0
+        lab.accessibilityIdentifier = "ProductDescription"
         return lab
      }()
     
@@ -43,6 +44,7 @@ final class UIProductDetailsView: UIView{
         collection.allowsMultipleSelection = false
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
+        collection.accessibilityIdentifier = "CollectionProductPhotos"
         return collection
     }()
     
@@ -72,7 +74,9 @@ final class UIProductDetailsView: UIView{
      }()
     
     private let addresView: UIAddressView = {
-        return UIAddressView()
+        let addressView = UIAddressView()
+        addressView.accessibilityIdentifier = "AddressView"
+        return addressView
     }()
     
     override init(frame: CGRect) {

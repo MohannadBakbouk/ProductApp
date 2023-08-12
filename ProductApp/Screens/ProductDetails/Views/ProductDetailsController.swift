@@ -17,6 +17,7 @@ final class ProductDetailsController: BaseViewController<ProductDetailsViewModel
         let img = UIImageView()
         img.contentMode = .scaleAspectFit
         img.backgroundColor = .white
+        img.accessibilityIdentifier = "ProductPhoto"
         return img
     }()
     
@@ -24,11 +25,13 @@ final class ProductDetailsController: BaseViewController<ProductDetailsViewModel
         let button = UIButton()
         button.setImage(UIImage(systemName: Images.back, withConfiguration: UIImage.SymbolConfiguration(pointSize: 25)), for: .normal)
         button.tintColor = .detailsColor
+        button.accessibilityIdentifier = "BackButton"
         return button
     }()
     
     private lazy var detailsView: UIProductDetailsView = {
         let view = UIProductDetailsView()
+        view.accessibilityIdentifier = "ProductDetailsView"
         view.addGestureRecognizer(panGesture)
         return view
     }()

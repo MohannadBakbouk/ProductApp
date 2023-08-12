@@ -29,6 +29,7 @@ final class CategorySectionCell: UITableViewCell {
         collection.allowsMultipleSelection = false
         collection.showsHorizontalScrollIndicator = false
         collection.showsVerticalScrollIndicator = false
+        collection.accessibilityIdentifier = "CategoryCollection"
         return collection
     }()
     
@@ -82,6 +83,7 @@ final class CategorySectionCell: UITableViewCell {
     }
     
     private func setupViews(){
+        accessibilityIdentifier = "CategorySection"
         selectionStyle = .none
         contentView.addSubview(mainStack)
         collectionView.register(CategoryItemCell.self)

@@ -30,6 +30,7 @@ final class UIHeaderView: UIStackView {
         let button = UIButton()
         button.tintColor = .detailsColor
         button.setImage(UIImage(systemName: Images.bars, withConfiguration: UIImage.SymbolConfiguration(pointSize: 45)), for: .normal)
+        button.accessibilityIdentifier = "FiltersButton"
         return button
     }()
     

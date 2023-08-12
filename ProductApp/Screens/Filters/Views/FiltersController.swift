@@ -17,6 +17,7 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
          view.layer.cornerRadius = 15
          view.layer.maskedCorners = [.layerMinXMinYCorner, .layerMaxXMinYCorner]
          view.addGestureRecognizer(swipeGesture)
+         view.accessibilityIdentifier = "ContaitnerView"
          return view
     }()
     
