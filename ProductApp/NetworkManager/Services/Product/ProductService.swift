@@ -10,6 +10,7 @@ import RxSwift
 
 protocol ProductServiceProtocol {
     func getProducts() -> Observable<[Product]>
+    func getProdutDetails() -> Observable<Product> // a fake endpoint to test handling error
 }
 
 final class ProductService: ProductServiceProtocol{
@@ -21,5 +22,9 @@ final class ProductService: ProductServiceProtocol{
     
     func getProducts() -> Observable<[Product]> {
         return networkManager.request(endpoint: ProductsEndpoint.products)
+    }
+    
+    func getProdutDetails() -> Observable<Product> {
+        return networkManager.request(endpoint: ProductsEndpoint.productDetails)
     }
 }

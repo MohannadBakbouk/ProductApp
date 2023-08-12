@@ -20,6 +20,9 @@ target 'ProductApp' do
   target 'ProductAppTests' do
     inherit! :search_paths
     # Pods for testing
+    appPods
+    pod 'RxBlocking'
+    pod 'RxTest'
   end
 
   target 'ProductAppUITests' do
