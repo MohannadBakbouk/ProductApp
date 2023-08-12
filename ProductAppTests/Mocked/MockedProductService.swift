@@ -23,3 +23,12 @@ final class MockedProductService: ProductServiceProtocol{
         return Observable.error(NetworkError.notFound)
     }
 }
+
+extension MockedProductService{
+    class func productItem() -> Product?{
+        guard let url = Bundle.main.url(forResource: "ProductsResponse", withExtension: "json"),
+              let data =  try? Data(contentsOf: url),
+              let response = try? JSONDecoder().decode([Product].self, from: data) else { return nil}
+        return response.first
+    }
+}
