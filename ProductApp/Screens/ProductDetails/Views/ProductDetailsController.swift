@@ -36,7 +36,7 @@ final class ProductDetailsController: BaseViewController<ProductDetailsViewModel
         return view
     }()
     
-    var panGesture: UIPanGestureRecognizer = {
+    private var panGesture: UIPanGestureRecognizer = {
         return UIPanGestureRecognizer()
     }()
     

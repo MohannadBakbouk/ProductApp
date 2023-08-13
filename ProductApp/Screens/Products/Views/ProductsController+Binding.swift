@@ -12,6 +12,7 @@ import RxDataSources
 
 extension ProductsController{
     func bindingCollectionViewDataSource(){
+        /* It might be "setMessage" func has been called to display an error so I wanna clear that */
         viewModel.products
         .subscribe(onNext:{[weak self] _ in
             self?.collectionView.clearMessage()
@@ -38,8 +39,10 @@ extension ProductsController{
     
     func bindingIsLoading(){
         viewModel.isLoading
-       .bind(to: activityIndicatorView.rx.isAnimating)
-       .disposed(by: disposeBag)
+        .subscribe(onNext:{[weak self] status in
+            guard !(self?.viewModel.isRefreshing.value ?? true) else {return}
+            _ = status ? self?.activityIndicatorView.startAnimating() : self?.activityIndicatorView.stopAnimating()
+        }).disposed(by: disposeBag)
     }
     
     func bindingFiltersButton(){
@@ -72,6 +75,7 @@ extension ProductsController{
        }).disposed(by: disposeBag)
     }
     
+    /* Since caching was integrated so it wont be able to test this unless you turn off the internet connection and reinstall the app */
     func bindingErrorMessage(){
         viewModel.error
         .observe(on: MainScheduler.instance)

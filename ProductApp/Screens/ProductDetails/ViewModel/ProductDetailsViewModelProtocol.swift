@@ -9,5 +9,6 @@ import Foundation
 import RxCocoa
 
 protocol ProductDetailsViewModelProtocol: BaseViewModelProtocol{
+    //Output
     var productDetails: BehaviorRelay<ProductViewData>{get}
 }

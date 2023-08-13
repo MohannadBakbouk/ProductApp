@@ -12,7 +12,7 @@ final class SplashController: UIViewController {
     
     weak var coordinator : MainCoordinator?
     
-    var inidicatorView:  UIActivityIndicatorView = {
+    private var inidicatorView:  UIActivityIndicatorView = {
         let item = UIActivityIndicatorView()
         item.tintColor = .darkGray
         item.style = .large
@@ -20,7 +20,7 @@ final class SplashController: UIViewController {
         return item
     }()
     
-    var slugLabel : UILabel = {
+    private var slugLabel : UILabel = {
         let lab = UILabel()
         lab.text = App.name
         lab.textColor = .darkGray

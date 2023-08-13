@@ -13,6 +13,7 @@ import RxDataSources
 
 final class UIProductDetailsView: UIView{
     private let disposeBag = DisposeBag()
+    
     private let titleLabel: UILabel = {
         let lab = UILabel()
         lab.accessibilityIdentifier = "ProductTitle"

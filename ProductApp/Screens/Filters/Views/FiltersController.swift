@@ -21,7 +21,7 @@ final class FiltersController: BaseViewController<FiltersViewModel> {
          return view
     }()
     
-    private lazy var filtersView: UIFiltersViewProtocol =  {
+    private var filtersView: UIFiltersViewProtocol =  {
         return UIFiltersView()
     }()
     

@@ -47,7 +47,7 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
         axis = .vertical
         distribution = .fill
         addArrangedSubview(tableView)
-        tableView.register(mutipleCells: [CategorySectionCell.self,SortMethodSectionCell.self,ButtonSectionCell.self])
+        tableView.register(mutipleCells: [ButtonSectionCell.self, CategorySectionCell.self,SortMethodSectionCell.self])
         setupConstraints()
         bindingFilterTableViewDataSource()
     }
@@ -59,7 +59,7 @@ final class UIFiltersView: UIStackView, UIFiltersViewProtocol{
     
     override func layoutSubviews() {
         super.layoutSubviews()
-        // Since it is double I have to round to prevent executing it serverl times
+        // Since it is double I have to round to prevent executing it serverl times 
         guard let height = heightConstraint, height.constant.rounded() !=  tableView.contentSize.height.rounded()  else {return}
         tableView.layoutIfNeeded()
         height.constant = tableView.contentSize.height

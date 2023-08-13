@@ -32,6 +32,5 @@ extension ProductViewData{
         self.category = info.category ?? .electronics
         self.image = info.image ?? ""
         self.rating = RatingViewData(info: info.rating ?? Rating())
-        
     }
 }

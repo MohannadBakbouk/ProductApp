@@ -12,18 +12,22 @@ import RealmSwift
 
 final class ProductsViewModel: ProductsViewModelProtocol{
     var disposeBag: DisposeBag
+    //Output events
     var isLoading: PublishSubject<Bool>
     var isRefreshing: BehaviorRelay<Bool>
     var error: BehaviorSubject<ErrorDataView?>
     var products: BehaviorSubject<[ProductViewData]>
+    //Input events
     var refreshTrigger: PublishSubject<Void>
     var selectedFilters: BehaviorSubject<FilterParams?>
     var clearFilters: PublishSubject<Void>
-    var loadCachedProductsOrFireError: PublishSubject<NetworkError> //internal event
-    var cachingProductsTrigger: PublishSubject<[Product]>           //internal event
+    //Internal events
+    var loadCachedProductsOrFireError: PublishSubject<NetworkError>
+    var cachingProductsTrigger: PublishSubject<[Product]>
+    
     let service: ProductServiceProtocol
     let cacheManager: CacheManagerProtocol
-    var allProducts: [Product]
+    var allProducts: [Product] 
    
     
     init(service: ProductServiceProtocol,cacheManager: CacheManagerProtocol) {
@@ -55,7 +59,6 @@ final class ProductsViewModel: ProductsViewModelProtocol{
             self?.isLoading.onNext(false)
             self?.products.onNext(items.map{ProductViewData(info: $0)})
             self?.cachingProductsTrigger.onNext(items)
-            //_ = (self?.isRefreshing.value ?? false) ? self?.isRefreshing.accept(false) : ()
             self?.isRefreshing.accept(false)
         }, onError : {[weak self] error in
             let networkError = error as? NetworkError ?? .errorOccured
@@ -97,6 +100,7 @@ final class ProductsViewModel: ProductsViewModelProtocol{
             guard let self = self  else {return}
             guard let items = self.cacheManager.fetch(entity: ProductObject.self) , items.count > 0 else {
                   self.isLoading.onNext(false)
+                  self.isRefreshing.accept(false)
                   self.error.onNext(ErrorDataView(with: error))
                   return
             }

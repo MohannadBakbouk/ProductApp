@@ -15,7 +15,6 @@ final class SortMethodSectionCell: UITableViewCell {
     private var heightConstraint: NSLayoutConstraint?
     private let initHeight: CGFloat = 170.0
     let disposeBag = DisposeBag()
-    var resetSelection = PublishSubject<Void>() //Input
     
     private lazy var titleLabel: UILabel = {
         let lab = UILabel()
@@ -45,6 +44,9 @@ final class SortMethodSectionCell: UITableViewCell {
          return dataSource
     }()
     
+    /* Since I did define the tableView with private access modifier so I have to offer an alternative way */
+    //Input
+    var resetSelection = PublishSubject<Void>()
     //Output
     var selectedSortMethod: Observable<SortMethod>{
         return tableView.rx.modelSelected(SortMethod.self).asObservable()

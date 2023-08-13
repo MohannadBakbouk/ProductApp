@@ -102,9 +102,8 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
     
     private func setupConstraints(){
         headerView.easy.layout(Top(15).to(view.safeAreaLayoutGuide, .top),
-                              Leading(15).to(view),
-                              Trailing(15).to(view),
-                              Height(50))
+                               Leading(15),Trailing(15),
+                               Height(50))
         activityIndicatorView.easy.layout(Size(25), Center())
         
         scrollView.easy.layout(Top(15).to(headerView, .bottom),Leading(15),Trailing(15),                                     Height(*0.65).like(view))
@@ -112,7 +111,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
                               Width().like(scrollView).with(.required),
                               Height().like(scrollView).with(.low))
         
-        titleLabel.easy.layout(Top(15),Leading(0),Trailing(0), Height(50))
+        titleLabel.easy.layout(Top(15),Leading(),Trailing(), Height(50))
         collectionView.easy.layout(Top(10).to(titleLabel, .bottom), Leading(0),
                                    Trailing(0), Bottom(5))
     }

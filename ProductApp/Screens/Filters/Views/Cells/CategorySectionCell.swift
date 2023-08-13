@@ -14,7 +14,6 @@ import RxCocoa
 final class CategorySectionCell: UITableViewCell {
     private var heightConstraint: NSLayoutConstraint?
     private let initHeight: CGFloat = 75.0
-    var resetSelection = PublishSubject<Void>()//Input
     let disposeBag = DisposeBag()
 
     private lazy var titleLabel: UILabel = {
@@ -77,6 +76,9 @@ final class CategorySectionCell: UITableViewCell {
     override func setSelected(_ selected: Bool, animated: Bool) {
         super.setSelected(selected, animated: animated)
     }
+    
+    //Input
+    var resetSelection = PublishSubject<Void>()
     //Output
     var selectedCategory: Observable<Category>{
         return collectionView.rx.modelSelected(Category.self).asObservable()

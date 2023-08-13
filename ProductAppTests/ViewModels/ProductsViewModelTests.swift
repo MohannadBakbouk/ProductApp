@@ -138,7 +138,7 @@ final class ProductsViewModelTests: XCTestCase {
         .disposed(by: disposeBag)
         viewModel.loadProducts()
         
-        (viewModel as? ProductsViewModel)?.loadCachedProductsOrFireError.onNext(NetworkError.server) // trigger
+        viewModel.loadCachedProductsOrFireError.onNext(NetworkError.server) // trigger
         
         let receivedItems = products.events.last?.value.element
         XCTAssert((receivedItems?.count ?? 0) > 0, "the cached products weren't published when there is an error")
