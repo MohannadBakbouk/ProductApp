@@ -40,5 +40,4 @@ enum Images {
     static let location = "location.fill"
     static let back = "chevron.left"
     static let exclamationmark = "exclamationmark.circle.fill"
-
 }
