@@ -123,6 +123,7 @@ final class ProductsCell: UICollectionViewCell {
         mainStack.easy.layout(Top(10).to(contentView), Leading(10).to(contentView), Trailing(10).to(contentView), Bottom(10).to(contentView))
         deliveryLabel.easy.layout(Width(*0.4).like(mainStack))
         emptyView.easy.layout(Height().like(priceLabel))
+        fooerStack.easy.layout(Height(20))
     }
     
     private func setupBorder(){

@@ -106,7 +106,7 @@ final class ProductsController: BaseViewController<ProductsViewModel> {
                                Height(50))
         activityIndicatorView.easy.layout(Size(25), Center())
         
-        scrollView.easy.layout(Top(15).to(headerView, .bottom),Leading(15),Trailing(15),                                     Height(*0.65).like(view))
+        scrollView.easy.layout(Top(15).to(headerView, .bottom),Leading(15),Trailing(15),                                     Height(*0.60).like(view))
         container.easy.layout(Edges(),
                               Width().like(scrollView).with(.required),
                               Height().like(scrollView).with(.low))
